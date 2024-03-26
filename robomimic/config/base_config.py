@@ -85,8 +85,9 @@ class BaseConfig(Config):
         self.experiment.validate = False                            # whether to do validation or not
         self.experiment.logging.terminal_output_to_txt = True       # whether to log stdout to txt file 
         self.experiment.logging.log_tb = True                       # enable tensorboard logging
-        self.experiment.logging.log_wandb = False                   # enable wandb logging
-        self.experiment.logging.wandb_proj_name = "debug"           # project name if using wandb
+        self.experiment.logging.log_wandb = True                   # enable wandb logging
+        self.experiment.logging.wandb_proj_name.do_not_lock_keys()           # project name if using wandb
+        self.experiment.logging.wandb_proj_name = "qd-il"  
 
 
         ## save config - if and when to save model checkpoints ##
@@ -118,7 +119,7 @@ class BaseConfig(Config):
         self.experiment.rollout.enabled = True                      # enable evaluation rollouts
         self.experiment.rollout.n = 50                              # number of rollouts per evaluation
         self.experiment.rollout.horizon = 400                       # maximum number of env steps per rollout
-        self.experiment.rollout.rate = 50                           # do rollouts every @rate epochs
+        self.experiment.rollout.rate = 2000                         # do rollouts every @rate epochs
         self.experiment.rollout.warmstart = 0                       # number of epochs to wait before starting rollouts
         self.experiment.rollout.terminate_on_success = True         # end rollout early after task success
 
