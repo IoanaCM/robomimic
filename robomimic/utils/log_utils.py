@@ -33,8 +33,9 @@ class PrintLogger(object):
         self.log_file.flush()
 
     def flush(self):
-        # ensure stdout gets flushed
-        self.terminal.flush()
+        pass
+        # # ensure stdout gets flushed
+        # self.terminal.flush()
 
 
 class DataLogger(object):
