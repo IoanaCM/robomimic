@@ -87,7 +87,6 @@ class BaseConfig(Config):
         self.experiment.logging.log_tb = True                       # enable tensorboard logging
         self.experiment.logging.log_wandb = False                   # enable wandb logging
         self.experiment.logging.wandb_proj_name = "qd-il" 
-        self.experiment.logging.wandb_proj_name.do_not_lock_keys()           # project name if using wandb
 
 
         ## save config - if and when to save model checkpoints ##
