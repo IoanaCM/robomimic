@@ -31,6 +31,7 @@ class SequenceDataset(torch.utils.data.Dataset):
         hdf5_use_swmr=True,
         hdf5_normalize_obs=False,
         filter_by_attribute=None,
+        demos=None,
         load_next_obs=True,
     ):
         """
@@ -113,7 +114,7 @@ class SequenceDataset(torch.utils.data.Dataset):
         self.pad_frame_stack = pad_frame_stack
         self.get_pad_mask = get_pad_mask
 
-        self.load_demo_info(filter_by_attribute=self.filter_by_attribute)
+        self.load_demo_info(filter_by_attribute=self.filter_by_attribute, demos=demos)
 
         # maybe prepare for observation normalization
         self.obs_normalization_stats = None
