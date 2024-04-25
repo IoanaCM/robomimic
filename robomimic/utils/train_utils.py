@@ -11,6 +11,7 @@ import json
 import h5py
 import imageio
 import numpy as np
+import random
 from copy import deepcopy
 from collections import OrderedDict
 
@@ -46,8 +47,7 @@ def get_exp_dir(config, auto_remove_exp_dir=False):
             to store rollout videos
     """
     # timestamp for directory names
-    t_now = time.time()
-    time_str = datetime.datetime.fromtimestamp(t_now).strftime('%Y%m%d%H%M%S')
+    time_str = str(random.randint(0, 100000))
 
     # create directory for where to dump model parameters, tensorboard logs, and videos
     base_output_dir = os.path.expanduser(config.train.output_dir)
