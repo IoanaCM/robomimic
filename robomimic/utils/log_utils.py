@@ -52,51 +52,6 @@ class DataLogger(object):
         self._wandb_logger = None
         self._data = dict() # store all the scalar data logged so far
 
-        if log_tb:
-            from tensorboardX import SummaryWriter
-            self._tb_logger = SummaryWriter(os.path.join(log_dir, 'tb'))
-
-        if log_wandb:
-            import wandb
-            import robomimic.macros as Macros
-            
-            # set up wandb api key if specified in macros
-            if Macros.WANDB_API_KEY is not None:
-                os.environ["WANDB_API_KEY"] = Macros.WANDB_API_KEY
-
-            assert Macros.WANDB_ENTITY is not None, "WANDB_ENTITY macro is set to None." \
-                    "\nSet this macro in {base_path}/macros_private.py" \
-                    "\nIf this file does not exist, first run python {base_path}/scripts/setup_macros.py".format(base_path=robomimic.__path__[0])
-            
-            # attempt to set up wandb 10 times. If unsuccessful after these trials, don't use wandb
-            num_attempts = 10
-            for attempt in range(num_attempts):
-                try:
-                    # set up wandb
-                    self._wandb_logger = wandb
-
-                    self._wandb_logger.init(
-                        entity=Macros.WANDB_ENTITY,
-                        project=config.experiment.logging.wandb_proj_name,
-                        name=config.experiment.name,
-                        dir=log_dir,
-                        mode=("offline" if attempt == num_attempts - 1 else "online"),
-                    )
-
-                    # set up info for identifying experiment
-                    wandb_config = {k: v for (k, v) in config.meta.items() if k not in ["hp_keys", "hp_values"]}
-                    for (k, v) in zip(config.meta["hp_keys"], config.meta["hp_values"]):
-                        wandb_config[k] = v
-                    if "algo" not in wandb_config:
-                        wandb_config["algo"] = config.algo_name
-                    self._wandb_logger.config.update(wandb_config)
-
-                    break
-                except Exception as e:
-                    log_warning("wandb initialization error (attempt #{}): {}".format(attempt + 1, e))
-                    self._wandb_logger = None
-                    time.sleep(30)
-
     def record(self, k, v, epoch, data_type='scalar', log_stats=False):
         """
         Record data with logger.
