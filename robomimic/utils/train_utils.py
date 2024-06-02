@@ -101,7 +101,7 @@ def load_data_for_training(config, obs_keys, demos=None):
         assert config.experiment.validate, "specified validation filter key {}, but config.experiment.validate is not set".format(valid_filter_by_attribute)
 
 
-    train_dataset = deepcopy(dataset_factory(config, obs_keys, filter_by_attribute=train_filter_by_attribute, demos=demos))
+    train_dataset = dataset_factory(config, obs_keys, filter_by_attribute=train_filter_by_attribute, demos=demos)
 
     return train_dataset, None
 
